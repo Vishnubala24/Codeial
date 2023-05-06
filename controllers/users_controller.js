@@ -57,6 +57,6 @@ module.exports.createUser = function(req, res){
     return res.redirect('back');
 }
 
-// module.exports.createSession = function(req, res){
-//     // TODO
-// }
+module.exports.createSession = function(req, res){
+    return re.redirect('/');
+}
