@@ -15,6 +15,11 @@ module.exports.profile = function(req, res){
 }
 
 module.exports.signup = function(req, res){
+
+    if(req.isAuthenticated()){
+        return res.redirect('/users/profile');
+    }
+
     return res.render('user_signup', {
         title: 'User',
         user_msg: 'VB Up'
@@ -22,6 +27,11 @@ module.exports.signup = function(req, res){
 }
 
 module.exports.signin = function(req, res){
+
+    if(req.isAuthenticated()){
+        return res.redirect('/users/profile');
+    }
+
     return res.render('user_signin', {
         title: 'User',
         user_msg: 'Sign In'
@@ -58,5 +68,15 @@ module.exports.createUser = function(req, res){
 }
 
 module.exports.createSession = function(req, res){
-    return re.redirect('/');
+    console.log('In Create Session')
+    return res.redirect('/');
+}
+
+
+module.exports.deleteSession = function(req, res){
+
+    req.logout(function(err){
+        console.log(err || 'LogOut successful.')
+    });
+    return res.redirect('/');
 }

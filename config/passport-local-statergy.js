@@ -5,16 +5,17 @@ const User = require('../models/users');
 
 // Auth using passport
 passport.use(new LocalStatergy({
-        usernameField: 'email'
+        usernameField: 'uname',
+        passwordField:'upass'
     },
-    function(email, password, done){
+    function(uname, upass, done){
 
         console.log('Inside LS ')
         // Find user & establish identity
-        User.findOne({email: email})
+        User.findOne({email: uname})
         .then(function(user){
 
-            if(!user && user.password != password){
+            if(!user && user.password !== upass){
                 console.log('Invalid username/password');
                 return done(null, false);
             }
@@ -40,8 +41,23 @@ passport.deserializeUser(function(id, done){
         return done(null, user);
     })
     .catch(function(err){
-        return done(null, err);
+        return done(err);
     })
 });
+
+passport.checkAuthentication = function(req, res, next){
+
+    if(req.isAuthenticated()){
+        return next();
+    }
+    return res.redirect('/users/signin');
+}
+
+passport.setAuthenticatedUser = function(req, res, next){
+    if(req.isAuthenticated()){
+        res.locals.user = req.user;
+    }
+    next();
+}
 
 module.exports = passport;
