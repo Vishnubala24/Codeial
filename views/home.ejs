@@ -5,7 +5,7 @@
     <% if(locals.user) { %> 
     <h3> Posts </h3>
     <form action="/posts/create" method="POST">
-        <textarea name="content" cols="30" rows="3" placeholder="Type your post"></textarea>
+        <textarea name="content" cols="30" rows="3" placeholder="Type your post" required></textarea>
         <br>
         <input type="submit" value="Post">
     </form>
@@ -15,10 +15,36 @@
         <ul>
             <% for(let post of posts) { %>
 
-                <li>
-                    <%= post.content %>
-                    <small> <%= post.user %></small>
-                </li>
+                <p>
+                    <li>
+                        <%= post.content %>
+                        <small> <%= post.user.name %></small>
+                    </li>
+                </p>
+                <div class="post-comments">
+                    <% if(locals.user) { %> 
+                        
+                        <form action="comments/create" method="POST">
+                            <input type="text" placeholder="Enter your Comment" name="content" required>
+                            <br>
+                            <input type="hidden" name="post" value="<%= post._id %>" >
+                            <br>
+                            <input type="submit" value="Add Comment">
+                        </form>
+                    <% } %>
+                </div>
+
+                <div id="post-comment-list">
+                    <ul id="">
+                        <% for(comment of post.comments) { %>
+                            <p>
+                                <%= comment.content %>
+                                <%= comment.user.name %>    
+                            </p>
+                        <% } %>
+                    </ul>
+                </div>
+                
 
             <% } %>
         </ul>
