@@ -9,6 +9,8 @@ const session = require('express-session');
 const passport = require('passport');
 const passportLocal = require('./config/passport-local-statergy');
 const MongoStore = require('connect-mongo')(session);
+const flash = require('connect-flash');
+const customMiddleware = require('./config/middleware'); 
 // const sassMiddleware = require('node-sass-middleware');
 
 
@@ -22,6 +24,8 @@ const MongoStore = require('connect-mongo')(session);
 
 
 app.use(express.static('./public'))
+// MAke the uploads path available
+app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use(expressLayouts);
 app.use(bodyParser.urlencoded({
     extended: true
@@ -61,6 +65,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(passport.setAuthenticatedUser);
+
+app.use(flash());
+app.use(customMiddleware.setFlash);
 
 // Use express router
 app.use('/', require('./routes'))

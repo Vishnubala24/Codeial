@@ -3,4 +3,29 @@
 
 <h1> Codial <%= title %></h1>
 <br>
-<h2> <%= user_msg %></h2>
+<!-- <h2> <%= profile_user.name %></h2>
+<h2> <%= profile_user.email %></h2> -->
+<img src="<%= user.avatar %>" alt="<%= user.name %>" width="100">
+
+<% if(user.id == profile_user.id) { %>
+    
+    <!-- If user matches show the form -->
+    <form action="/users/update/<%= profile_user.id %>" enctype="multipart/form-data" method="POST">
+        <br><br>
+        <input type="text" name="name" placeholder="Your name" value="<%= profile_user.name %>" required>
+        <br><br>
+        <input type="email" name="email" placeholder="Your Email" value="<%= profile_user.email %>" required>
+        <br><br>
+        <input type="file" name="avatar" placeholder="Profile picture"  >
+        <br><br>
+        <input type="submit" value="Update" >
+        <br><br>
+    </form>
+
+
+<% } else { %>
+
+    <!-- Show only the profile info -->
+
+
+<% } %>
